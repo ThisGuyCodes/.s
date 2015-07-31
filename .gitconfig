@@ -1,0 +1,8 @@
+[user]
+	name = Travis Johnson
+	email = travis@thisguy.codes
+	signingkey = 5BC6BB9A
+[push]
+	default = simple
+[core]
+	editor = vim
