@@ -5,3 +5,6 @@ copy:
 
 	# Git
 	cp ~/.gitconfig .
+
+back:
+	cp -r . ~
