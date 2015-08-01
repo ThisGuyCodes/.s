@@ -6,5 +6,8 @@ copy:
 	# Git
 	cp ~/.gitconfig .
 
+	# Zsh
+	cp ~/.zshrc .
+
 back:
 	cp -r . ~
