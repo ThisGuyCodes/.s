@@ -48,3 +48,20 @@ fi
 
 # Fuck
 alias fuck='eval $(thefuck-alias)'
+
+# In-terminal highlighting
+if which source-highlight-esc.sh > /dev/null
+then
+	OLD_CAT="$(which cat)"
+	function cat() {
+		if ! "$(which source-highlight-esc.sh)" $@ 2>/dev/null
+		then
+			"${OLD_CAT}" $@
+		fi
+	}
+fi
+if which src-hilite-lesspipe.sh > /dev/null
+then
+	export LESSOPEN="| $(which src-hilite-lesspipe.sh) %s"
+	export LESS=' -R '
+fi
