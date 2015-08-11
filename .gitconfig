@@ -6,3 +6,10 @@
 	default = simple
 [core]
 	editor = vim
+[alias]
+	ignoreprof = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
+	x = commit --message
+	xa = commit --all --message
+	a = add
+	s = status
+	ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore

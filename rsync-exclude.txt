@@ -1,0 +1,5 @@
+rsync-exclude.txt
+LICENSE
+README.md
+Makefile
+.git

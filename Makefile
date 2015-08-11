@@ -1,7 +1,12 @@
 copy:
 	# Vim
 	cp ~/.vimrc .
-	cp -r ~/.vim .
+	mkdir -p .vim
+	# Colors
+	cp -r ~/.vim/colors .vim/
+	# Lockfile
+	mkdir -p .vim/bundle
+	cp ~/.vim/bundle/NeoBundle.lock .vim/bundle
 
 	# Git
 	cp ~/.gitconfig .
@@ -16,10 +21,9 @@ copy:
 
 	# GPG Agent stuff
 	# I wanna think about how to refactor this
-	cp ~/.bash_gpg .
-	mkdir .gnupg
+	mkdir -p .gnupg
 	cp ~/.gnupg/gpg.conf .gnupg/
 	cp ~/.gnupg/gpg-agent.conf .gnupg/
 
 back:
-	cp -r . ~
+	rsync --exclude-from './rsync-exclude.txt' -r . ~

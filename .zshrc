@@ -15,17 +15,33 @@ source "${HOME}/.secrets"
 
 # Because anon rate limiting
 export HOMEBREW_GITHUB_API_TOKEN # Declared in .secrets
+
+# Go!
 export GOPATH="${HOME}/gowork"
 export PATH="${PATH}:${GOPATH}/bin"
 
-# gpg agent stuff
-GPG_AGENT=$(which gpg-agent)
-GPG_TTY=`tty`
-export GPG_TTY
+# Gpg agent stuff
+if which gpg-agent > /dev/null
+then
+	local GPG_AGENT=$(which gpg-agent)
+	GPG_TTY=`tty`
+	export GPG_TTY
+	local envfile="${HOME}/.gnupg/gpg-agent.env"
 
-# I don't really like how this is in another file
-if [ -f ${GPG_AGENT} ]; then
-    . ~/.bash_gpg
+	local GPG_PID="$(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f2)"
+
+	if kill -0 "${GPG_PID}" 2>/dev/null; then
+	    eval "$(cat "${envfile}")"
+	else
+		local GPG_PIDS="$(ps -x -U "${UID}" | grep '/[g]pg-agent' | awk '{print $1}')"
+		xargs kill <<< "${GPG_PIDS}" &> /dev/null
+	    eval "$(${GPG_AGENT} --daemon --log-file=~/.gnupg/gpg.log --write-env-file "${envfile}")"
+		eval "$(cat "${envfile}")"
+	fi
+	# The env file does not contain the export statement
+	export GPG_AGENT_INFO
+	export SSH_AUTH_SOCK
+	export SSH_AGENT_PID
 fi
 
 # Most of the boot2docker stuff, ip may change
@@ -52,9 +68,13 @@ alias fuck='eval $(thefuck-alias)'
 # In-terminal highlighting
 if which source-highlight-esc.sh > /dev/null
 then
-	OLD_CAT="$(which cat)"
+	local NEW_CAT="$(which source-highlight-esc.sh)"
+	local OLD_CAT="$(which cat)"
 	function cat() {
-		if ! "$(which source-highlight-esc.sh)" $@ 2>/dev/null
+		if ! test -t 1
+		then
+			"${OLD_CAT}" $@
+		elif ! "${NEW_CAT}" $@ 2>/dev/null
 		then
 			"${OLD_CAT}" $@
 		fi
@@ -65,3 +85,9 @@ then
 	export LESSOPEN="| $(which src-hilite-lesspipe.sh) %s"
 	export LESS=' -R '
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/travis.johnson/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/travis.johnson/google-cloud-sdk/completion.zsh.inc'
