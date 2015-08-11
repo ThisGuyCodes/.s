@@ -189,6 +189,9 @@ autocmd FileType yml set shiftwidth=2 tabstop=2 expandtab
 " http://stackoverflow.com/questions/102384/using-vims-tabs-like-buffers
 set hidden
 
+" Because the other wrapping is silly
+set linebreak
+
 " smart tab completion for files in status
 set wildmode=longest:full
 set wildmenu
