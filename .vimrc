@@ -71,6 +71,14 @@ if has('lua')
 	" Close popup by <Space>.
 	"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
+	" NERDTree
+	augroup Nerdtree
+		autocmd vimenter * NERDTree
+		autocmd VimEnter * wincmd p
+		autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+	augroup END
+
+	"}}} Plugins
 else
 	echomsg "Has('lua') returned false, skipping plugins."
 endif
@@ -210,10 +218,3 @@ set wildmenu
 " set proper filetype for go files on open
 autocmd BufRead,BufNewFile *.go set filetype=go
 autocmd BufNewFile,BufRead *.yaml,*.yml setf yaml
-
-" NERDTree
-augroup Nerdtree
-  autocmd vimenter * NERDTree
-  autocmd VimEnter * wincmd p
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-augroup END
