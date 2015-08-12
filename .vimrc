@@ -3,6 +3,7 @@
 " -----------------------------------------------------------------------------
 
 if has('lua')
+	" {{{ Plugins
 	if has('vim_starting')
 	if &compatible
 		set nocompatible              " be iMproved, required
@@ -106,7 +107,7 @@ set encoding=utf8
 syntax on
 colorscheme molokai
 
-"syntax enable
+" Syntax enable
 set background=dark
 
 " Disable error bells
@@ -134,31 +135,31 @@ set cmdheight=2
 " always show the statusline
 set laststatus=2
 
-" change color of status line when in insert mode
+" Change color of status line when in insert mode
 autocmd InsertEnter * highlight StatusLine ctermfg=Green
 autocmd InsertLeave * highlight StatusLine ctermfg=LightGray
 
-" bottom of screen offset
+" Bottom of screen offset
 set scrolloff=3
 
-" strip trailing white space on save
+" Strip trailing white space on save
 autocmd BufWritePre * :%s/\s\+$//e
 " autocmd FileType python,html,coffee autocmd BufWritePre * :%s/\s\+$//e
 
-" enable backspace to delete past cursor
+" Enable backspace to delete past cursor
 set backspace=indent,eol,start
 
-" colorcolumn of 80 characters
+" Colorcolumns of 79 (pep8) and 120 (github)
 set colorcolumn=79,120
 highlight ColorColumn ctermbg=0 ctermfg=DarkRed
 
-" show command in the lower right hand corner
+" Show command in the lower right hand corner
 set showcmd
 
-" show the cursor position all the time
+" Show the cursor position all the time
 set ruler
 
-" set color of gutter column
+" Set color of gutter column
 highlight clear SignColumn
 
 " show title in console title bar
@@ -171,10 +172,7 @@ set showmatch
 set number
 set relativenumber
 
-" show title in console title bar
-set title
-
-" allow for forced write
+" Allow for forced write
 cmap w!! w !sudo tee %
 
 " -----------------------------------------------------------------------------
