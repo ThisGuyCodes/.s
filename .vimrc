@@ -104,11 +104,10 @@ set undodir=/tmp
 " Set encoding
 set encoding=utf8
 
-syntax on
-colorscheme molokai
-
 " Syntax enable
 set background=dark
+syntax on
+colorscheme molokai
 
 " Disable error bells
 set noerrorbells
