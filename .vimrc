@@ -219,3 +219,5 @@ autocmd BufNewFile,BufRead *.yaml,*.yml setf yaml
 
 " Folding
 set foldmethod=marker
+nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
+vnoremap <Space> zf
