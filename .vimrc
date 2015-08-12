@@ -2,42 +2,46 @@
 " Vundle Stuff
 " -----------------------------------------------------------------------------
 
-if has('vim_starting')
-  if &compatible
-    set nocompatible              " be iMproved, required
-  endif
-  " set the runtime path to include Vundle and initialize
-  set rtp+=~/.vim/bundle/neobundle.vim/
+if has('lua')
+	if has('vim_starting')
+	if &compatible
+		set nocompatible              " be iMproved, required
+	endif
+	" set the runtime path to include Vundle and initialize
+	set rtp+=~/.vim/bundle/neobundle.vim/
+	endif
+
+	call neobundle#begin(expand('~/.vim/bundle'))
+
+	" let neobundle manage neobundle, required
+	NeoBundleFetch 'Shougo/neobundle.vim'
+
+	" -------------------------------------------------------------------------
+	" Plugins
+	" -------------------------------------------------------------------------
+	NeoBundle 'Shougo/vimproc.vim', {
+				\ 'build' : {
+				\     'windows' : 'tools\\update-dll-mingw',
+				\     'cygwin' : 'make -f make_cygwin.mak',
+				\     'mac' : 'make -f make_mac.mak',
+				\     'linux' : 'make',
+				\     'unix' : 'gmake',
+				\    },
+				\ }
+	NeoBundle 'Shougo/neocomplete.vim'
+	NeoBundle 'Raimondi/delimitMate'
+	NeoBundle 'fatih/vim-go'
+	NeoBundle 'scrooloose/nerdtree'
+	NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+
+	" All of your Plugins must be added before the following line
+	call neobundle#end()         " required
+	filetype plugin indent on    " required
+
+	NeoBundleCheck
+else
+	echomsg "Has('lua') returned false, skipping plugins."
 endif
-
-call neobundle#begin(expand('~/.vim/bundle'))
-
-" let neobundle manage neobundle, required
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" -----------------------------------------------------------------------------
-" Plugins
-" -----------------------------------------------------------------------------
-NeoBundle 'Shougo/vimproc.vim', {
-			\ 'build' : {
-			\     'windows' : 'tools\\update-dll-mingw',
-			\     'cygwin' : 'make -f make_cygwin.mak',
-			\     'mac' : 'make -f make_mac.mak',
-			\     'linux' : 'make',
-			\     'unix' : 'gmake',
-			\    },
-			\ }
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-
-" All of your Plugins must be added before the following line
-call neobundle#end()         " required
-filetype plugin indent on    " required
-
-NeoBundleCheck
-
 " -----------------------------------------------------------------------------
 " General Settings
 " -----------------------------------------------------------------------------
