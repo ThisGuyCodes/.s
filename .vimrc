@@ -209,10 +209,13 @@ set hidden
 " Because the other wrapping is silly
 set linebreak
 
-" smart tab completion for files in status
+" Smart tab completion for files in status
 set wildmode=longest:full
 set wildmenu
 
-" set proper filetype for go files on open
+" Set proper filetype for go files on open
 autocmd BufRead,BufNewFile *.go set filetype=go
 autocmd BufNewFile,BufRead *.yaml,*.yml setf yaml
+
+" Folding
+set foldmethod=marker
