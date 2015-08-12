@@ -1,15 +1,16 @@
 " -----------------------------------------------------------------------------
 " Vundle Stuff
 " -----------------------------------------------------------------------------
+if &compatible
+	set nocompatible              " be iMproved, required
+endif
+
 
 if has('lua')
 	" {{{ Plugins
 	if has('vim_starting')
-	if &compatible
-		set nocompatible              " be iMproved, required
-	endif
-	" set the runtime path to include Vundle and initialize
-	set rtp+=~/.vim/bundle/neobundle.vim/
+		" set the runtime path to include Vundle and initialize
+		set rtp+=~/.vim/bundle/neobundle.vim/
 	endif
 
 	call neobundle#begin(expand('~/.vim/bundle'))
@@ -88,7 +89,7 @@ endif
 " -----------------------------------------------------------------------------
 
 " Disable AutoComplPop.
- let g:acp_enableAtStartup = 0
+let g:acp_enableAtStartup = 0
 
 " Use the OS clipboard by default
 set clipboard=unnamed

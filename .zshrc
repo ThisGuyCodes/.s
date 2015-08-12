@@ -27,10 +27,14 @@ then
 	GPG_TTY=`tty`
 	export GPG_TTY
 	local envfile="${HOME}/.gnupg/gpg-agent.env"
+	local GPG_PID
+	if [ -f "${envfile}" ]
+	then
+		GPG_PID="$(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f2)"
+	fi
 
-	local GPG_PID="$(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f2)"
-
-	if kill -0 "${GPG_PID}" 2>/dev/null; then
+	if [ -f "${envfile}" ] && kill -0 "${GPG_PID}" 2>/dev/null
+	then
 	    eval "$(cat "${envfile}")"
 	else
 		local GPG_PIDS="$(ps -x -U "${UID}" | grep '/[g]pg-agent' | awk '{print $1}')"
@@ -87,7 +91,13 @@ then
 fi
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/travis.johnson/google-cloud-sdk/path.zsh.inc'
+if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]
+then
+	source "${HOME}/google-cloud-sdk/path.zsh.inc"
+fi
 
 # The next line enables shell command completion for gcloud.
-source '/Users/travis.johnson/google-cloud-sdk/completion.zsh.inc'
+if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]
+then
+	source "${HOME}/google-cloud-sdk/completion.zsh.inc"
+fi
