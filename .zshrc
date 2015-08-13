@@ -90,14 +90,23 @@ then
 	export LESS=' -R '
 fi
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]
+# Prefer to use local sdk, otherwise check for cask
+if test -d "${HOME}/google-cloud-sdk"
 then
-	source "${HOME}/google-cloud-sdk/path.zsh.inc"
+	GCLOUD_PATH="${HOME}/google-cloud-sdk"
+elif test -d "/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
+then
+	GCLOUD_PATH="/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
+fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "${GCLOUD_PATH}/path.zsh.inc" ]
+then
+	source "${GCLOUD_PATH}/path.zsh.inc"
 fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]
+if [ -f "${GCLOUD_PATH}/completion.zsh.inc" ]
 then
-	source "${HOME}/google-cloud-sdk/completion.zsh.inc"
+	source "${GCLOUD_PATH}/completion.zsh.inc"
 fi
