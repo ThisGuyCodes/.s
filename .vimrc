@@ -214,10 +214,17 @@ set wildmode=longest:full
 set wildmenu
 
 " Set proper filetype for go files on open
-autocmd BufRead,BufNewFile *.go set filetype=go
-autocmd BufNewFile,BufRead *.yaml,*.yml setf yaml
+augroup go_files
+	autocmd BufRead,BufNewFile *.go set filetype=go
+	autocmd BufNewFile,BufRead *.yaml,*.yml setf yaml
+augroup END
 
 " Folding
 set foldmethod=marker
 nnoremap <silent> <Space> @=(foldlevel('.')?'za':"\<Space>")<CR>
 vnoremap <Space> zf
+
+" Trim trailing whitespace
+augroup trim_whitespace
+	autocmd BufWritePre * :%s/\s\+$//e
+augroup END

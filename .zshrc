@@ -11,10 +11,15 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-source "${HOME}/.secrets"
+if test -f "${HOME}/.secrets"
+then
+	source "${HOME}/.secrets"
+fi
+# Lines marked with a comment: {secret} are intended to be got from the above
+# file.
 
 # Because anon rate limiting
-export HOMEBREW_GITHUB_API_TOKEN # Declared in .secrets
+export HOMEBREW_GITHUB_API_TOKEN # {secret}
 
 # Go!
 export GOPATH="${HOME}/gowork"
@@ -90,23 +95,28 @@ then
 	export LESS=' -R '
 fi
 
-# Prefer to use local sdk, otherwise check for cask
-if test -d "${HOME}/google-cloud-sdk"
-then
-	GCLOUD_PATH="${HOME}/google-cloud-sdk"
-elif test -d "/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
-then
-	GCLOUD_PATH="/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk"
-fi
+# Google Cloud SDK block
+{
+	local GC='google-cloud-sdk'
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "${GCLOUD_PATH}/path.zsh.inc" ]
-then
-	source "${GCLOUD_PATH}/path.zsh.inc"
-fi
+	# Prefer to use local sdk, otherwise check for cask
+	if test -d "${HOME}/${GC}"
+	then
+		GC="${HOME}/${GC}"
+	elif test -d "/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/${GC}"
+	then
+		GC="/opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/${GC}"
+	fi
 
-# The next line enables shell command completion for gcloud.
-if [ -f "${GCLOUD_PATH}/completion.zsh.inc" ]
-then
-	source "${GCLOUD_PATH}/completion.zsh.inc"
-fi
+	# The next line updates PATH for the Google Cloud SDK.
+	if [ -f "${GC}/path.zsh.inc" ]
+	then
+		source "${GC}/path.zsh.inc"
+	fi
+
+	# The next line enables shell command completion for gcloud.
+	if [ -f "${GC}/completion.zsh.inc" ]
+	then
+		source "${GC}/completion.zsh.inc"
+	fi
+}
