@@ -6,7 +6,8 @@
 #
 
 # Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+if test -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
@@ -33,12 +34,12 @@ then
 	export GPG_TTY
 	local envfile="${HOME}/.gnupg/gpg-agent.env"
 	local GPG_PID
-	if [ -f "${envfile}" ]
+	if test -f "${envfile}"
 	then
 		GPG_PID="$(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f2)"
 	fi
 
-	if [ -f "${envfile}" ] && kill -0 "${GPG_PID}" 2>/dev/null
+	if test -f "${envfile}" && kill -0 "${GPG_PID}" 2>/dev/null
 	then
 	    eval "$(cat "${envfile}")"
 	else
@@ -109,13 +110,13 @@ fi
 	fi
 
 	# The next line updates PATH for the Google Cloud SDK.
-	if [ -f "${GC}/path.zsh.inc" ]
+	if test -f "${GC}/path.zsh.inc"
 	then
 		source "${GC}/path.zsh.inc"
 	fi
 
 	# The next line enables shell command completion for gcloud.
-	if [ -f "${GC}/completion.zsh.inc" ]
+	if test -f "${GC}/completion.zsh.inc"
 	then
 		source "${GC}/completion.zsh.inc"
 	fi
