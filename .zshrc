@@ -67,7 +67,7 @@ then
 fi
 
 # Fuck
-alias fuck='eval $(thefuck-alias)'
+alias fuck='eval $(thefuck --alias)'
 
 # In-terminal highlighting
 if which source-highlight-esc.sh > /dev/null
