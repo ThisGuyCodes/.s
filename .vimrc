@@ -35,6 +35,8 @@ if has('lua')
 	NeoBundle 'fatih/vim-go'
 	NeoBundle 'scrooloose/nerdtree'
 	NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+	NeoBundle 'tpope/vim-fugitive'
+	NeoBundle 'junegunn/vim-easy-align'
 
 	" All of your Plugins must be added before the following line
 	call neobundle#end()         " required
@@ -79,6 +81,10 @@ if has('lua')
 		autocmd VimEnter * wincmd p
 		autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 	augroup END
+
+	" vim-easy-align
+	vnoremap <Enter> <Plug>(EasyAlign)
+	inoremap ga <Plug>(EasyAlign)
 
 	"}}} Plugins
 else
