@@ -33,7 +33,7 @@ then
 	GPG_TTY=`tty`
 	export GPG_TTY
 	local envfile="${HOME}/.gnupg/gpg-agent.env"
-	local GPG_PID
+	local GPG_PID=''
 	if test -f "${envfile}"
 	then
 		GPG_PID="$(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f2)"
