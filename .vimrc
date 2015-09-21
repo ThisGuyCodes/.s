@@ -228,3 +228,6 @@ vnoremap <Space> zf
 augroup trim_whitespace
 	autocmd BufWritePre * :%s/\s\+$//e
 augroup END
+
+" Grepification
+nnoremap gr :silent lgrep! <cword> *<CR>\| :redraw!<CR>  \| :lopen 7<CR>
