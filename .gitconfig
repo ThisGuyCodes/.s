@@ -13,3 +13,5 @@
 	a = add
 	s = status
 	ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
+[rerere]
+	enabled = true
