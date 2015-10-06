@@ -27,3 +27,9 @@ My general intended structure here is along the lines of:
  3. A third command will allow for an interactive exploration/modification of a config (explain what parts do, ask questions to add new parts: "do you use vim", etc.).
 
  I feel it goes without saying, but the "bad patterns" portion of this will be the most important; as people who use automation things like this generally don't care, and tend to not check their email, where they're getting warnings from amazon about some github repo they have.
+
+ Current prerequesits:
+ - gpg-agent
+  - gpgsm
+  - opensc/pcscd (for yubikey/smart card integration)
+- clone prezto: github.com/sorin-ionescu/prezto into `${HOME}/prezto`, with recursion for submodules
