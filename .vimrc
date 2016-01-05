@@ -33,8 +33,6 @@ if has('lua')
 	NeoBundle 'Shougo/neocomplete.vim'
 	NeoBundle 'Raimondi/delimitMate'
 	NeoBundle 'fatih/vim-go'
-	NeoBundle 'scrooloose/nerdtree'
-	NeoBundle 'Xuyuanp/nerdtree-git-plugin'
 	NeoBundle 'tpope/vim-fugitive'
 	NeoBundle 'junegunn/vim-easy-align'
 
@@ -74,13 +72,6 @@ if has('lua')
 	inoremap <expr><C-e>  neocomplete#cancel_popup()
 	" Close popup by <Space>.
 	"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-	" NERDTree
-	augroup Nerdtree
-		autocmd vimenter * NERDTree
-		autocmd VimEnter * wincmd p
-		autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-	augroup END
 
 	" vim-easy-align
 	vnoremap <Enter> <Plug>(EasyAlign)
