@@ -74,8 +74,8 @@ if has('lua')
 	"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
 
 	" vim-easy-align
-	vnoremap <Enter> <Plug>(EasyAlign)
-	inoremap ga <Plug>(EasyAlign)
+	nmap ga <Plug>(EasyAlign)
+	xmap ga <Plug>(EasyAlign)
 
 	"}}} Plugins
 else
