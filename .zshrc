@@ -5,8 +5,6 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-WHICH="/usr/bin/which"
-
 # Source Prezto.
 if test -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 then
@@ -26,7 +24,7 @@ export HOMEBREW_GITHUB_API_TOKEN=GITHUB_API_TOKEN # {secret}
 export MACHINE_GITHUB_API_TOKEN=GITHUB_API_TOKEN  # {secret}
 
 # Docker machine stuff
-if "${WHICH}" -s docker-machine && "${WHICH}" -s jq
+if which docker-machine -s && which jq -s
 then
 	if docker-machine ls -q --filter "name=local" | grep -q local
 	then
@@ -56,7 +54,7 @@ export GOPATH="${HOME}/gowork"
 export PATH="${PATH}:${GOPATH}/bin"
 
 # Gpg agent stuff
-if "${WHICH}" -s gpg-agent
+if which gpg-agent > /dev/null
 then
 	local GPG_AGENT=$(which gpg-agent)
 	GPG_TTY=`tty`
@@ -83,15 +81,20 @@ then
 	export SSH_AGENT_PID
 fi
 
+# Most of the boot2docker stuff, ip may change
+export DOCKER_TLS_VERIFY=1
+export DOCKER_HOST=tcp://192.168.59.103:2376
+export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
+
 # Pyenv
-if "${WHICH}" -s pyenv
+if which pyenv > /dev/null
 then
 	eval "$(pyenv init -)"
 	eval "$(pyenv virtualenv-init -)"
 fi
 
 # Rbenv
-if "${WHICH}" -s rbenv
+if which rbenv > /dev/null
 then
 	eval "$(rbenv init -)"
 fi
@@ -100,7 +103,7 @@ fi
 alias fuck='eval $(thefuck --alias)'
 
 # In-terminal highlighting
-if "${WHICH}" -s source-highlight-esc.sh
+if which source-highlight-esc.sh > /dev/null
 then
 	local NEW_CAT="$(which source-highlight-esc.sh)"
 	local OLD_CAT="$(which cat)"
@@ -114,7 +117,7 @@ then
 		fi
 	}
 fi
-if "${WHICH}" -s src-hilite-lesspipe.sh
+if which src-hilite-lesspipe.sh > /dev/null
 then
 	export LESSOPEN="| $(which src-hilite-lesspipe.sh) %s"
 	export LESS=' -R '
