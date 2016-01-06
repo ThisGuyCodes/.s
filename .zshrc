@@ -24,7 +24,7 @@ export HOMEBREW_GITHUB_API_TOKEN=GITHUB_API_TOKEN # {secret}
 export MACHINE_GITHUB_API_TOKEN=GITHUB_API_TOKEN  # {secret}
 
 # Docker machine stuff
-if which docker-machine -s && which jq -s
+if which docker-machine >/dev/null && which jq >/dev/null
 then
 	if docker-machine ls -q --filter "name=local" | grep -q local
 	then
@@ -80,11 +80,6 @@ then
 	export SSH_AUTH_SOCK
 	export SSH_AGENT_PID
 fi
-
-# Most of the boot2docker stuff, ip may change
-export DOCKER_TLS_VERIFY=1
-export DOCKER_HOST=tcp://192.168.59.103:2376
-export DOCKER_CERT_PATH=${HOME}/.boot2docker/certs/boot2docker-vm
 
 # Pyenv
 if which pyenv > /dev/null
