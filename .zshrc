@@ -20,8 +20,8 @@ fi
 # file.
 
 # Because anon rate limiting
-export HOMEBREW_GITHUB_API_TOKEN=GITHUB_API_TOKEN # {secret}
-export MACHINE_GITHUB_API_TOKEN=GITHUB_API_TOKEN  # {secret}
+export HOMEBREW_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN # {secret}
+export MACHINE_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN  # {secret}
 
 # Docker machine stuff
 if which docker-machine >/dev/null && which jq >/dev/null
