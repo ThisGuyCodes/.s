@@ -16,12 +16,32 @@ if test -f "${HOME}/.secrets"
 then
 	source "${HOME}/.secrets"
 fi
-# Lines marked with a comment: {secret} are intended to be got from the above
-# file.
+# Variables from the above file should not be checked in
+# But they *should* be checked *for*
+for NAME in $(echo "
+GITHUB_PUBLIC_TOKEN
+")
+do
+	NAME="${NAME#\n}"
+	# Ignore the blank lines at the head and tail
+	if [ -z "${NAME}" ]
+	then
+		continue
+	else
+		NAME="${NAME#\n}"
+	fi
+
+	eval local CONTAINED=\$${NAME}
+	if [ -z "${CONTAINED}" ]
+	then
+		# Warn that the value is missing
+		echo "Secrets file is missing ${NAME}"
+	fi
+done
 
 # Because anon rate limiting
-export HOMEBREW_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN # {secret}
-export MACHINE_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN  # {secret}
+export HOMEBREW_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN
+export MACHINE_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN
 
 # Docker machine stuff
 if which docker-machine >/dev/null && which jq >/dev/null
