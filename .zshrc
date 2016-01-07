@@ -40,8 +40,8 @@ do
 done
 
 # Because anon rate limiting
-export HOMEBREW_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN
-export MACHINE_GITHUB_API_TOKEN=GITHUB_PUBLIC_TOKEN
+export HOMEBREW_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
+export MACHINE_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
 
 # Docker machine stuff
 if which docker-machine >/dev/null && which jq >/dev/null
@@ -49,7 +49,6 @@ then
 	if docker-machine ls -q --filter "name=local" | grep -q local
 	then
 		local MACHINE_NAME="local"
-		local ENV_COMMAND="docker-machine env"
 		local CONFIG="${HOME}/.docker-machine.conf"
 		if [ -f "${CONFIG}" ]
 		then
@@ -58,11 +57,11 @@ then
 
 			if [ "${DOCKER_HOST#tcp://}" != "${IP}" ]
 			then
-				${ENV_COMMAND} "${MACHINE_NAME}" > "${CONFIG}"
+				docker-machine env "${MACHINE_NAME}" >! "${CONFIG}"
 				source "${CONFIG}"
 			fi
 		else
-			${ENV_COMMAND} "${MACHINE_NAME}" > "${CONFIG}"
+			docker-machine env "${MACHINE_NAME}" > "${CONFIG}"
 			source "${CONFIG}"
 		fi
 	fi
