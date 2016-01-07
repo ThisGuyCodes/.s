@@ -79,16 +79,41 @@ function _fix_npm_package_path {
 	fi
 	# Escape for sed
 	local ESCAPED_PATH="$(echo "${NPM_PACKAGE_PATH}" | sed -e 's/[\/&]/\\&/g')"
+	local TMP_PATH=""
 	# Remove existing path if any
-	export PATH="$(echo "${PATH}" | sed -e "s/:${ESCAPED_PATH}//")"
+	while true
+	do
+		# Beginning
+		TMP_PATH="$(echo "${PATH}" | sed -e "s/^${ESCAPED_PATH}://")"
+		if ! [ "${TMP_PATH}" = "${PATH}" ]
+		then
+			break
+		fi
+		# Middle
+		TMP_PATH="$(echo "${PATH}" | sed -e "s/:${ESCAPED_PATH}:/:/")"
+		if ! [ "${TMP_PATH}" = "${PATH}" ]
+		then
+			break
+		fi
+		# End
+		TMP_PATH="$(echo "${PATH}" | sed -e "s/:${ESCAPED_PATH}$//")"
+		if ! [ "${TMP_PATH}" = "${PATH}" ]
+		then
+			break
+		fi
+		# None
+		TMP_PATH="${PATH}"
+		break
+	done
 
 	NPM_PACKAGE_PATH="${NEW_PATH}"
 
 	# Add the correct one, only if there is a path
 	if [ -n "${NPM_PACKAGE_PATH}" ]
 	then
-		export PATH="${PATH}:${NPM_PACKAGE_PATH}"
+		TMP_PATH="${TMP_PATH}:${NPM_PACKAGE_PATH}"
 	fi
+	export PATH="${TMP_PATH}"
 }
 
 # Add to the chpwd functions
