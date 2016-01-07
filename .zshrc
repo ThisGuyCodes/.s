@@ -80,7 +80,7 @@ function _fix_npm_package_path {
 	# Escape for sed
 	local ESCAPED_PATH="$(echo "${NPM_PACKAGE_PATH}" | sed -e 's/[\/&]/\\&/g')"
 	# Remove existing path if any
-	export PATH="$(echo "${PATH}" | sed -e "s/\:${ESCAPED_PATH}//")"
+	export PATH="$(echo "${PATH}" | sed -e "s/:${ESCAPED_PATH}//")"
 
 	NPM_PACKAGE_PATH="${NEW_PATH}"
 
