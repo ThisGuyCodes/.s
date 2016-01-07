@@ -89,6 +89,10 @@ then
 fi
 
 # Rbenv
+if [[ "${PATH}" != *"${HOME}/.rbenv/bin"* ]] && [ -d "${HOME}/.rbenv" ]
+then
+	export PATH="${PATH}:${HOME}/.rbenv/bin"
+fi
 if which rbenv > /dev/null
 then
 	eval "$(rbenv init -)"
