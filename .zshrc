@@ -43,6 +43,57 @@ done
 export HOMEBREW_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
 export MACHINE_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
 
+# Find if we're in an NPM project:
+function _get_npm_project {
+	local CHECKING="$(pwd)"
+	while [ "${CHECKING}" != "/" ]
+	do
+		if [ -f "${CHECKING}/package.json" ]
+		then
+			echo "${CHECKING}"
+			break
+		else
+			# Go up a level
+			CHECKING="${CHECKING}/.."
+			# Resolve...
+			CHECKING="${CHECKING:A}"
+		fi
+	done
+}
+
+function _get_npm_package_path {
+	local NPM_PROJECT="$(_get_npm_project)"
+	if [ -n "${NPM_PROJECT}" ]
+	then
+		echo "${NPM_PROJECT}/node_modules/.bin"
+	fi
+}
+
+local NPM_PACKAGE_PATH="$(_get_npm_package_path)"
+function _fix_npm_package_path {
+	# Maybe do nothing
+	local NEW_PATH="$(_get_npm_package_path)"
+	if [ "${NEW_PATH}" = "${NPM_PACKAGE_PATH}" ]
+	then
+		return
+	fi
+	# Escape for sed
+	local ESCAPED_PATH="$(echo "${NPM_PACKAGE_PATH}" | sed -e 's/[\/&]/\\&/g')"
+	# Remove existing path if any
+	export PATH="$(echo "${PATH}" | sed -e "s/\:${ESCAPED_PATH}//")"
+
+	NPM_PACKAGE_PATH="${NEW_PATH}"
+
+	# Add the correct one, only if there is a path
+	if [ -n "${NPM_PACKAGE_PATH}" ]
+	then
+		export PATH="${PATH}:${NPM_PACKAGE_PATH}"
+	fi
+}
+
+# Add to the chpwd functions
+chpwd_functions=(${chpwd_functions[@]} "_fix_npm_package_path")
+
 # Docker machine stuff
 if which docker-machine >/dev/null && which jq >/dev/null
 then
