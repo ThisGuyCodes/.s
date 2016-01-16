@@ -35,6 +35,7 @@ if has('lua')
 	NeoBundle 'fatih/vim-go'
 	NeoBundle 'tpope/vim-fugitive'
 	NeoBundle 'junegunn/vim-easy-align'
+	NeoBundle 'vim-ruby/vim-ruby'
 
 	" All of your Plugins must be added before the following line
 	call neobundle#end()         " required
@@ -194,6 +195,7 @@ autocmd FileType coffee set shiftwidth=2 tabstop=2 expandtab
 autocmd FileType go set tabstop=4 noexpandtab
 autocmd FileType yaml set shiftwidth=2 tabstop=2 expandtab
 autocmd FileType yml set shiftwidth=2 tabstop=2 expandtab
+autocmd FileType ruby set shiftwidth=2 tabstop=2 expandtab
 
 " -----------------------------------------------------------------------------
 " Other stuff
