@@ -35,13 +35,47 @@ do
 	if [ -z "${CONTAINED}" ]
 	then
 		# Warn that the value is missing
-		echo "Secrets file is missing ${NAME}"
+		echo "Secrets file is missing: ${NAME}"
 	fi
 done
 
 # Because anon rate limiting
 export HOMEBREW_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
 export MACHINE_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
+
+# I work to make things here conditional, but I often get confused when stuff
+# isn't working. Provide a means to alert on missing things, and to install
+# said missing thins.
+function alert_missing_functionality {
+	local MISSING="${1}"
+	shift
+	local INSTALL="${1}"
+	shift
+	local MESSAGE="${1}"
+
+	if [ -n "${MESSAGE}" ]
+	then
+		echo "${MESSAGE}"
+	else
+		echo "${MISSING} is missing, adding install command to autofile (${INSTALL})"
+	fi
+
+	echo "${INSTALL}" >>! "${HOME}/.auto_install"
+}
+
+function install-missing {
+	while read line
+	do
+		if ! eval "${line}"
+		then
+			echo "${line}" >>! "${HOME}/.auto_install.new"
+		fi
+	done < "${HOME}/.auto_install"
+	if [ -f "${HOME}/.auto_install.new" ]
+	then
+		echo 'Some installations failed, run again to re-attempt the failed ones'
+	fi
+}
 
 # Find if we're in an NPM project:
 function _get_npm_project {

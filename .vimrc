@@ -5,6 +5,10 @@ if &compatible
 	set nocompatible              " be iMproved, required
 endif
 
+" -----------------------------------------------------------------------------
+" Modify the path to prefer vim local versions of executables
+" -----------------------------------------------------------------------------
+let $PATH = $HOME . "/.vim/node_modules/.bin:" . $PATH
 
 if has('lua')
 	" {{{ Plugins
@@ -36,6 +40,7 @@ if has('lua')
 	NeoBundle 'tpope/vim-fugitive'
 	NeoBundle 'junegunn/vim-easy-align'
 	NeoBundle 'vim-ruby/vim-ruby'
+	NeoBundle 'suan/vim-instant-markdown'
 
 	" All of your Plugins must be added before the following line
 	call neobundle#end()         " required
