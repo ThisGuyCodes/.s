@@ -279,3 +279,5 @@ fi
 
 # Vi mode, change <ESC> timeout from 0.4s to 0.1s
 export KEYTIMEOUT=1
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

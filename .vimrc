@@ -41,6 +41,13 @@ if has('lua')
 	NeoBundle 'junegunn/vim-easy-align'
 	NeoBundle 'vim-ruby/vim-ruby'
 	NeoBundle 'suan/vim-instant-markdown'
+	NeoBundle 'junegunn/fzf', {
+		\ 'build' : {
+		\		'linux' : './install --all',
+		\		'mac' : './install --all',
+		\		'unix' : './install --all',
+		\	},
+		\ }
 
 	" All of your Plugins must be added before the following line
 	call neobundle#end()         " required
