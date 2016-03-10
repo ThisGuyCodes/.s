@@ -46,7 +46,7 @@ export MACHINE_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
 # I work to make things here conditional, but I often get confused when stuff
 # isn't working. Provide a means to alert on missing things, and to install
 # said missing thins.
-function alert_missing_functionality {
+function _alert_missing {
 	local MISSING="${1}"
 	shift
 	local INSTALL="${1}"
@@ -175,6 +175,15 @@ then
 			source "${CONFIG}"
 		fi
 	fi
+else
+	if !which docker-machine >/dev/null
+	then
+		_alert_missing "docker-machine" "brew install docker-machine"
+	fi
+	if !which jq >/dev/null
+	then
+		_alert_missing "jq" "brew install jq"
+	fi
 fi
 
 
@@ -208,6 +217,8 @@ then
 	export GPG_AGENT_INFO
 	export SSH_AUTH_SOCK
 	export SSH_AGENT_PID
+else
+	_alert_missing "gpg-agent" "brew install gpg-agent"
 fi
 
 # Pyenv
@@ -215,6 +226,8 @@ if which pyenv > /dev/null
 then
 	eval "$(pyenv init -)"
 	eval "$(pyenv virtualenv-init -)"
+else
+	_alert_missing "pyenv" "brew install pyenv pyenv-virtualenv"
 fi
 
 # Rbenv
@@ -244,6 +257,8 @@ then
 			"${OLD_CAT}" $@
 		fi
 	}
+else
+	_alert_missing "source-highlight" "brew install source-highlight"
 fi
 if which src-hilite-lesspipe.sh > /dev/null
 then
@@ -281,3 +296,5 @@ fi
 export KEYTIMEOUT=1
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -d "${HOME}/.chefdk/gem/ruby/2.1.0/bin" ] && PATH="${PATH}:${HOME}/.chefdk/gem/ruby/2.1.0/bin"
