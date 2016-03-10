@@ -10,6 +10,8 @@ if test -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+export TERM=xterm-256color
+[ -n "$TMUX" ] && export TERM=screen-256color
 
 # Customize to your needs...
 if test -f "${HOME}/.secrets"
@@ -176,11 +178,11 @@ then
 		fi
 	fi
 else
-	if !which docker-machine >/dev/null
+	if ! which docker-machine >/dev/null
 	then
 		_alert_missing "docker-machine" "brew install docker-machine"
 	fi
-	if !which jq >/dev/null
+	if ! which jq >/dev/null
 	then
 		_alert_missing "jq" "brew install jq"
 	fi
