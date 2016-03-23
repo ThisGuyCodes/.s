@@ -48,7 +48,7 @@ zstyle ':prezto:load' pmodule \
   'history-substring-search' \
   'rsync' \
   'prompt' \
-  #'git'
+  $(which brew > /dev/null && echo -n 'git')
   # 'gpg' mine works better than this, may contribute
 
 #
