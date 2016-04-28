@@ -297,6 +297,7 @@ fi
 # Vi mode, change <ESC> timeout from 0.4s to 0.1s
 export KEYTIMEOUT=1
 
+FZF_TMUX=0
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -d "${HOME}/.chefdk/gem/ruby/2.1.0/bin" ] && PATH="${PATH}:${HOME}/.chefdk/gem/ruby/2.1.0/bin"
