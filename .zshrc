@@ -13,6 +13,18 @@ fi
 export TERM=xterm-256color
 [ -n "$TMUX" ] && export TERM=screen-256color
 
+# Declare all the variables
+declare -ra SECRETS=(
+GITHUB_PUBLIC_TOKEN
+DRONE_SERVER
+DRONE_TOKEN
+)
+
+for NAME in ${SECRETS[@]}
+do
+	declare ${NAME}
+done
+
 # Customize to your needs...
 if test -f "${HOME}/.secrets"
 then
@@ -20,9 +32,7 @@ then
 fi
 # Variables from the above file should not be checked in
 # But they *should* be checked *for*
-for NAME in $(echo "
-GITHUB_PUBLIC_TOKEN
-")
+for NAME in ${SECRETS[@]}
 do
 	NAME="${NAME#\n}"
 	# Ignore the blank lines at the head and tail
@@ -44,6 +54,10 @@ done
 # Because anon rate limiting
 export HOMEBREW_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
 export MACHINE_GITHUB_API_TOKEN="${GITHUB_PUBLIC_TOKEN}"
+
+# Exported secrets
+export DRONE_SERVER
+export DRONE_TOKEN
 
 # I work to make things here conditional, but I often get confused when stuff
 # isn't working. Provide a means to alert on missing things, and to install
@@ -243,7 +257,7 @@ then
 fi
 
 # Fuck
-alias fuck='eval $(thefuck --alias)'
+which thefuck &>/dev/null && eval "$(thefuck --alias)"
 
 # In-terminal highlighting
 if which source-highlight-esc.sh > /dev/null
@@ -298,8 +312,22 @@ fi
 export KEYTIMEOUT=1
 
 FZF_TMUX=0
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 [ -d "${HOME}/.chefdk/gem/ruby/2.1.0/bin" ] && PATH="${PATH}:${HOME}/.chefdk/gem/ruby/2.1.0/bin"
 
-[ -f ~/.iterm2_shell_integration.zsh ] && source ~/.iterm2_shell_integration.zsh
+# Simple completion includes
+local INCLUDES=(
+	"${HOME}/.fzf.zsh"
+	'/usr/local/bin/aws_zsh_completer.sh'
+	"${HOME}/.iterm2_shell_integration"
+)
+for f in ${INCLUDES}
+do
+	if test -f "${f}"
+	then
+		source "${f}"
+	fi
+done
+
+alias vi=nvim
+alias vim=nvim

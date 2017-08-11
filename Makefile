@@ -1,14 +1,4 @@
 copy:
-	# Vim
-	cp ~/.vimrc .
-	mkdir -p .vim
-	# Colors
-	cp -r ~/.vim/colors .vim/
-	# Lockfile
-	mkdir -p .vim/bundle
-	cp ~/.vim/bundle/NeoBundle.lock .vim/bundle
-	cp ~/.vim/package.json .vim
-	cp ~/.vim/npm-shrinkwrap.json .vim
 
 	# Git
 	cp ~/.gitconfig .
