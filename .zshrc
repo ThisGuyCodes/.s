@@ -238,6 +238,10 @@ else
 fi
 
 # Pyenv
+if test -d "${HOME}/.pyenv/bin"
+then
+	export PATH="${HOME}/.pyenv/bin:${PATH}"
+fi
 if which pyenv > /dev/null
 then
 	eval "$(pyenv init -)"

@@ -35,8 +35,8 @@ if dein#load_state('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 endif
 
 " Global configs
-let g:python_host_prog = '/Users/thisguy/.pyenv/versions/nvim2/bin/python'
-let g:python3_host_prog = '/Users/thisguy/.pyenv/versions/nvim/bin/python'
+let g:python_host_prog = '/home/thisguy/.pyenv/versions/nvim2/bin/python'
+let g:python3_host_prog = '/home/thisguy/.pyenv/versions/nvim/bin/python'
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
