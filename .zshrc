@@ -220,19 +220,19 @@ then
 		GPG_PID="$(grep GPG_AGENT_INFO "${envfile}" | cut -d: -f2)"
 	fi
 
-	if test -f "${envfile}" && kill -0 "${GPG_PID}" 2>/dev/null
+	if test -f "${envfile}"
 	then
-	    eval "$(cat "${envfile}")"
-	else
+		eval "$(cat "${envfile}")"
+	fi
+	if test ! -S "${SSH_AUTH_SOCK}"
+	then
 		local GPG_PIDS="$(ps -x -U "${UID}" | grep '/[g]pg-agent' | awk '{print $1}')"
 		xargs kill <<< "${GPG_PIDS}" &> /dev/null
-	    eval "$(${GPG_AGENT} --daemon --log-file=~/.gnupg/gpg.log --write-env-file "${envfile}")"
+	    	eval "${GPG_AGENT} --daemon --log-file=~/.gnupg/gpg.log" >! "${envfile}"
 		eval "$(cat "${envfile}")"
 	fi
 	# The env file does not contain the export statement
-	export GPG_AGENT_INFO
 	export SSH_AUTH_SOCK
-	export SSH_AGENT_PID
 else
 	_alert_missing "gpg-agent" "brew install gpg-agent"
 fi

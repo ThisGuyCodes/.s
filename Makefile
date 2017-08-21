@@ -16,6 +16,7 @@ copy:
 	mkdir -p .gnupg
 	cp ~/.gnupg/gpg.conf .gnupg/
 	cp ~/.gnupg/gpg-agent.conf .gnupg/
+	cp ~/.gnupg/pinentry.sh .gnupg/
 
 back:
 	rsync --exclude-from './rsync-exclude.txt' -r . ~
