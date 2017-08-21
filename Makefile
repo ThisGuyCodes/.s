@@ -10,6 +10,7 @@ copy:
 	cp ~/.zshenv .
 	cp ~/.zlogin .
 	cp ~/.zlogout .
+	cp ~/.tmux.conf .
 
 	# GPG Agent stuff
 	# I wanna think about how to refactor this
