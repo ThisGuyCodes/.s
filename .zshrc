@@ -207,6 +207,7 @@ fi
 export GOPATH="${HOME}/gowork"
 export PATH="${PATH}:${GOPATH}/bin"
 
+# pcscd scdaemon pcsc-tools
 # Gpg agent stuff
 if which gpg-agent > /dev/null
 then
@@ -223,6 +224,8 @@ then
 	if test -f "${envfile}"
 	then
 		eval "$(cat "${envfile}")"
+	else
+		SSH_AUTH_SOCK=''
 	fi
 	if test ! -S "${SSH_AUTH_SOCK}"
 	then
@@ -318,6 +321,7 @@ export KEYTIMEOUT=1
 FZF_TMUX=0
 
 [ -d "${HOME}/.chefdk/gem/ruby/2.1.0/bin" ] && PATH="${PATH}:${HOME}/.chefdk/gem/ruby/2.1.0/bin"
+[ -e "/etc/zsh_command_not_found" ] && source "/etc/zsh_command_not_found"
 
 # Simple completion includes
 local INCLUDES=(
@@ -332,6 +336,11 @@ do
 		source "${f}"
 	fi
 done
+
+if which yarn &>/dev/null
+then
+	export PATH="${PATH}:$(yarn global bin)"
+fi
 
 alias vi=nvim
 alias vim=nvim

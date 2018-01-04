@@ -138,8 +138,8 @@ zstyle ':prezto:module:prompt' theme 'sorin'
    'main' \
    'brackets' \
    'pattern' \
-   'cursor' \
    'root'
+#   'cursor' \
 #
 # Set syntax highlighting styles.
 # zstyle ':prezto:module:syntax-highlighting' styles \
