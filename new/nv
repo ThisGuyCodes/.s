@@ -1,0 +1,66 @@
+#!/Users/travis/.pyenv/versions/nvim/bin/python
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+from __future__ import absolute_import
+
+import os
+import sys
+
+from neovim import attach
+
+
+def _get_socket(src):
+    name = "NVIM_LISTEN_ADDRESS"
+    return src[name]
+
+def _get_nvim(addr):
+    if addr:
+        return attach("socket", path=addr)
+
+def _setup(nvim, path, args):
+    assert callable(getattr(nvim, "input", None))
+    assert callable(getattr(nvim, "command", None))
+    assert getattr(nvim, "vars", None)
+
+    assert callable(getattr(path, "abspath", None))
+
+    assert len(args) > 0
+
+    def f():
+        # exit terminal mode
+        nvim.input("<c-\\><c-n>")
+        chid = nvim.channel_id
+        nvim.command("augroup EDIT")
+        nvim.command('au BufEnter <buffer> call rpcnotify({0}, "n")'.format(chid))
+        nvim.command("au BufEnter <buffer> startinsert")
+        nvim.command("augroup END")
+        nvim.vars["files_to_edit"] = [path.abspath(f) for f in args]
+        for x in args:
+            nvim.command('exe "drop " . remove(g:files_to_edit, 0)')
+    return f
+
+def _exit(nvim):
+    assert getattr(nvim, "vars", None)
+    assert callable(getattr(nvim, "command", None))
+    assert callable(getattr(nvim, "stop_loop", None))
+
+    def f(*args):
+        nvim.vars["files_to_edit"] = None
+        nvim.command("augroup EDIT")
+        nvim.command("autocmd!")
+        nvim.command("augroup END")
+        nvim.stop_loop()
+    return f
+
+try:
+    nvim = _get_nvim(_get_socket(os.environ))
+except KeyError:
+    os.execvp("nvim", ["nvim"] + sys.argv[1:])
+
+files = sys.argv[1:]
+if not files:
+    print("Usage: {0} <filename> ...".format(sys.argv[0]))
+    sys.exit(1)
+
+nvim.run_loop(_exit(nvim), _exit(nvim), setup_cb=_setup(nvim, os.path, files))

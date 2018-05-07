@@ -342,5 +342,6 @@ then
 	export PATH="${PATH}:$(yarn global bin)"
 fi
 
-alias vi=nvim
-alias vim=nvim
+alias vi=nv
+alias v=nv
+alias vim=nv

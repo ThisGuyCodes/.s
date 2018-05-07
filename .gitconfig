@@ -1,11 +1,11 @@
 [user]
 	name = Travis Johnson
 	email = travis@thisguy.codes
-	signingkey = 5BC6BB9A
+	signingkey = 0x037D9571E4A2A920
 [push]
 	default = simple
 [core]
-	editor = vim
+	editor = nv
 [alias]
 	ignoreprof = "!gi() { curl -L -s https://www.gitignore.io/api/$@ ;}; gi"
 	x = commit --message
@@ -15,3 +15,4 @@
 	ignore = !([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
 [rerere]
 	enabled = true
+[diff]
